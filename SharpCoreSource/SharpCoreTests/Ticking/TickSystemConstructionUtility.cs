@@ -65,8 +65,18 @@ namespace SharpCoreTests.Ticking
             return ticksetGroup;
         }
 
+        public static TicksetInstanceConfigData TicksetInstance(string name)
+        {
+            return new TicksetInstanceConfigData
+            {
+                ticksetName = name
+            };
+        }
+
         #endregion Ticksets
+
         
+        #region Simulation Ticks
 
         private static TickSimulationConfigData[] BlankSimulationTickDataGroup()
         {
@@ -88,5 +98,33 @@ namespace SharpCoreTests.Ticking
             };
             return testSimulationTicks;
         }
+
+        public static TickSimulationConfigData[] SimulationTickDataGroup(
+            int tickCount, 
+            int ticksetsPerTick,
+            double tRate = 0.0334,
+            double tMax = 0.5)
+        {
+            TickSimulationConfigData[] data = new TickSimulationConfigData[tickCount];
+            for (int i = 0; i < tickCount; i++)
+            {
+                TickSimulationConfigData thisTick = new TickSimulationConfigData();
+                thisTick.tickName = "tick_" + i;
+                thisTick.ticksets = new TicksetInstanceConfigData[ticksetsPerTick];
+                thisTick.tickrate = tRate;
+                thisTick.maxDelta = tMax;
+                for (int e = 0; e < thisTick.ticksets.Length; e++)
+                {
+                    thisTick.ticksets[e] = new TicksetInstanceConfigData
+                    {
+                        ticksetName = "tick_" + i + "_tickset_" + e
+                    };
+                }
+                data[i] = thisTick;
+            }
+            return data;
+        }
+
+        #endregion Simulation Ticks
     }
 }

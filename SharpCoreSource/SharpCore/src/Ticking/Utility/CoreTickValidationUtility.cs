@@ -1,9 +1,12 @@
 using System;
 using SharpCore.Ticking.Data;
 
-namespace SharpCore.Ticking.Validation
+namespace SharpCore.Ticking.Utility
 {
-    public static class CoreTickValidation
+    /// <summary>
+    /// Helps validate tick system data.
+    /// </summary>
+    public static class CoreTickValidationUtility
     {
         /// <summary>
         /// Ensures that valid data is passed into the core tick system.

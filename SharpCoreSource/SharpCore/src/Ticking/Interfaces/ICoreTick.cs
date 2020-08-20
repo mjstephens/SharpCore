@@ -1,12 +1,22 @@
 using System;
+using SharpCore.Ticking.Client;
 using SharpCore.Ticking.Data;
 
-namespace SharpCore.Ticking
+namespace SharpCore.Ticking.Interfaces
 {
     public interface ICoreTick : ICoreSystemInterface
     {
         #region Properties
 
+        /// <summary>
+        /// List of variable (render) ticks
+        /// </summary>
+        public ITickInstance<ITickRenderClient> renderTick { get; }
+        /// <summary>
+        /// List of fixed (simulation) ticks
+        /// </summary>
+        public TickSimulation[] simulationTicks { get; }
+        
         /// <summary>
         /// The amount of time elapsed since the simulation began.
         /// </summary>

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using SharpCore.Ticking.Client;
 using SharpCore.Ticking.Data;
+using SharpCore.Ticking.Interfaces;
 
 namespace SharpCore.Ticking
 {

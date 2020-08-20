@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using SharpCore.Ticking;
+using SharpCore.Ticking.Interfaces;
 
 namespace SharpCore
 {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SharpCore.Ticking.Client;
 using SharpCore.Ticking.Data;
 
 namespace SharpCore.Ticking
@@ -35,7 +36,7 @@ namespace SharpCore.Ticking
         private void SetTicksets(IEnumerable<TicksetInstanceConfigData> ticksetsData)
         {
             ticksets = new List<TicksetBaseInstance<ITickRenderClient>>();
-            foreach (var tick in ticksetsData)
+            foreach (TicksetInstanceConfigData tick in ticksetsData)
             {
                 TicksetRenderInstance t = new TicksetRenderInstance(tick);
                 ticksets.Add(t);

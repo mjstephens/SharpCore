@@ -1,4 +1,4 @@
-namespace SharpCore.Ticking
+namespace SharpCore.Ticking.Interfaces
 {
     public interface ITicksetInstance
     {

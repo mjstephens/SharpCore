@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using SharpCore.Ticking.Client;
+using SharpCore.Ticking.Interfaces;
 
 namespace SharpCore.Ticking
 {
@@ -6,31 +8,16 @@ namespace SharpCore.Ticking
     {
         #region Properties
         
-        /// <summary>
-        /// The ticksets that belong to this tick
-        /// </summary>
         public List<TicksetBaseInstance<T>> ticksets { get; protected set; }
-
-        /// <summary>
-        /// How many ticks this tick has counted
-        /// </summary>
         public uint tickCount { get; private set; }
-
-        /// <summary>
-        /// FPS of this tick
-        /// </summary>
         public double ticksPerSecond { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private const float CONST_tpsUpdateRate = 4.0f;
 
         #endregion Properties
 
 
         #region Variables
 
+        private const float CONST_tpsUpdateRate = 4.0f;
         private int _tpsFrameCount;
         private double _tpsAccumDelta;
 
@@ -41,10 +28,14 @@ namespace SharpCore.Ticking
         
         void ITickInstance<T>.Tick(double delta)
         {
-            foreach (TicksetBaseInstance<T> sim in ticksets)
+            for (int i = 0; i < ticksets.Count; i++)
             {
-                sim.Tick(delta);
+                ticksets[i].Tick(delta);
             }
+            // foreach (TicksetBaseInstance<T> sim in ticksets)
+            // {
+            //     sim.Tick(delta);
+            // }
             
             CalculateTPS(delta);
             tickCount++;
