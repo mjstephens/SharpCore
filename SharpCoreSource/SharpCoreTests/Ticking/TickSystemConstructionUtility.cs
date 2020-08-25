@@ -4,6 +4,8 @@ namespace SharpCoreTests.Ticking
 {
     public static class TickSystemConstructionUtility
     {
+        public static double blankSimTickRate = 0.034;
+        
         #region System Config Data
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace SharpCoreTests.Ticking
                     },
                     maxDelta = 0.5f,
                     tickName = "testSimulationTick",
-                    tickrate = 0.0334
+                    tickrate = blankSimTickRate
                 }
             };
             return testSimulationTicks;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using SharpCore;
@@ -97,5 +98,71 @@ namespace SharpCoreTests.Ticking
         }
         
         #endregion Execution Order
+
+
+        #region Simulation Ticks
+
+        [Test]
+        [TestCase(0.0334)]
+        [TestCase(0.05)]
+        [TestCase(1)]
+        public void SimulationTicksDoFireAtCorrectIntervalsRelativeToRenderTick(double mockTickrate)
+        {
+            // Create new tick core system, override with custom simulation tick
+            CoreTickSystemConfigData coreTickConfigData = TickSystemConstructionUtility.BlankCoreTickSystemConfigData();
+            coreTickConfigData.simulationTicks =
+                TickSystemConstructionUtility.SimulationTickDataGroup(
+                    1, 
+                    1, 
+                    mockTickrate,
+                    Double.MaxValue);
+            var _ = new CoreTick(coreTickConfigData);
+
+            // Create simulation tick instance
+            DemoSimulationTickClientIntervalsTest simTick = new DemoSimulationTickClientIntervalsTest();
+            Core.Tick.Register(simTick);
+
+            Random r = new Random();
+            double elapsedSinceLastTick = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                // Tick
+                double mockDelta = r.NextDouble();
+                Core.Tick.OnUpdate(mockDelta);
+                elapsedSinceLastTick += mockDelta;
+                
+                // Collect target ticks
+                int targetTicks = 0;
+                double mockSimAccumulator = elapsedSinceLastTick;
+                while (mockSimAccumulator >= mockTickrate)
+                {
+                    mockSimAccumulator -= mockTickrate;
+                    targetTicks++;
+                }
+                elapsedSinceLastTick = mockSimAccumulator;
+                
+                // Detect ticks
+                if (simTick.ticksSinceLastCheck < targetTicks)
+                {
+                    Assert.Fail(
+                        "Simulation tick client is not ticking enough based on render tickrate: "
+                        + "TARGET: " + targetTicks
+                        + " RESULT: " + simTick.ticksSinceLastCheck);
+                }
+                else if (simTick.ticksSinceLastCheck > targetTicks)
+                {
+                    Assert.Fail(
+                        "Simulation tick client is ticking too frequently based on render tickrate: "
+                        + "TARGET: " + targetTicks
+                        + " RESULT: " + simTick.ticksSinceLastCheck);
+                }
+                else
+                {
+                    simTick.ticksSinceLastCheck = 0;
+                }
+            }
+        }
+
+        #endregion Simulation Ticks
     }
 }

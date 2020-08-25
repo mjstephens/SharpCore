@@ -28,14 +28,10 @@ namespace SharpCore.Ticking
         
         void ITickInstance<T>.Tick(double delta)
         {
-            for (int i = 0; i < ticksets.Count; i++)
+            foreach (TicksetBaseInstance<T> sim in ticksets)
             {
-                ticksets[i].Tick(delta);
+                sim.Tick(delta);
             }
-            // foreach (TicksetBaseInstance<T> sim in ticksets)
-            // {
-            //     sim.Tick(delta);
-            // }
             
             CalculateTPS(delta);
             tickCount++;

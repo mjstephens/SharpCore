@@ -15,20 +15,19 @@ namespace SharpCore.Ticking.Utility
         /// </summary>
         /// <param name="delta">Delta since last tick (seconds).</param>
         /// <param name="simulationTicks">The simulation ticks on which to execute.</param>
-        public static void ExecuteSimulationTicks(double delta, TickSimulation[] simulationTicks)
+        public static void ExecuteSimulationTicks(double delta, IEnumerable<TickSimulation> simulationTicks)
         {
-            for (int i = 0; i < simulationTicks.Length; i++)
-            //foreach (TickSimulation sim in simulationTicks)
+            foreach (TickSimulation sim in simulationTicks)
             {
-                double tickrate = simulationTicks[i].configData.tickrate;
-                simulationTicks[i].accumulator += delta;
-                simulationTicks[i].accumulator = 
-                    Math.Min(simulationTicks[i].accumulator, simulationTicks[i].configData.maxDelta);
+                double tickrate = sim.configData.tickrate;
+                sim.accumulator += delta;
+                sim.accumulator = 
+                    Math.Min(sim.accumulator, sim.configData.maxDelta);
 
-                while (simulationTicks[i].accumulator >= tickrate)
+                while (sim.accumulator >= tickrate)
                 {
-                    simulationTicks[i].accumulator -= tickrate;
-                    ((ITickInstance<ITickSimulationClient>) simulationTicks[i]).Tick(tickrate);
+                    sim.accumulator -= tickrate;
+                    ((ITickInstance<ITickSimulationClient>) sim).Tick(tickrate);
                 }
             }
         }

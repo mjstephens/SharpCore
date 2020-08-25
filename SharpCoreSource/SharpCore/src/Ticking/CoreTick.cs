@@ -11,7 +11,7 @@ namespace SharpCore.Ticking
     //https://forum.unity.com/threads/writing-update-manager-what-should-i-know.402571/
     
     /// <summary>
-    /// Implementation of Core.ICoreTick interface; coordinates ticking of render/simulation loops.
+    /// Implementation of Core.ICoreTick interface
     /// </summary>
     public class CoreTick : CoreSystemBase<CoreTickSystemConfigData>, ICoreTick
     {
@@ -53,28 +53,28 @@ namespace SharpCore.Ticking
         {
             TicksetBaseInstance<ITickSimulationClient> s = 
                 TicksetMatchUtility.GetSimulationTickset(tickset, simulationTicks);
-            s?.stagedForAddition.Add(obj);
+            s.stagedForAddition.Add(obj);
         }
         
         void ICoreTick.Register(ITickRenderClient obj, TicksetInstanceConfigData tickset)
         {
             TicksetBaseInstance<ITickRenderClient> s = 
                 TicksetMatchUtility.GetRenderTickset(tickset, renderTick);
-            s?.stagedForAddition.Add(obj);
+            s.stagedForAddition.Add(obj);
         }
 
         void ICoreTick.Unregister(ITickSimulationClient obj, TicksetInstanceConfigData tickset)
         {
             TicksetBaseInstance<ITickSimulationClient> s = 
                 TicksetMatchUtility.GetSimulationTickset(tickset, simulationTicks);
-            s?.stagedForRemoval.Add(obj);
+            s.stagedForRemoval.Add(obj);
         }
 
         void ICoreTick.Unregister(ITickRenderClient obj, TicksetInstanceConfigData tickset)
         {
             TicksetBaseInstance<ITickRenderClient> s = 
                 TicksetMatchUtility.GetRenderTickset(tickset, renderTick);
-            s?.stagedForRemoval.Add(obj);
+            s.stagedForRemoval.Add(obj);
         }
 
         #endregion Registration
