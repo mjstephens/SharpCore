@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Interfaces;
 
 namespace SharpCore.Ticking
 {
@@ -8,7 +6,7 @@ namespace SharpCore.Ticking
     {
         #region Properties
         
-        public List<TicksetBaseInstance<T>> ticksets { get; protected set; }
+        public List<TicksetBase<T>> ticksets { get; protected set; }
         public uint tickCount { get; private set; }
         public double ticksPerSecond { get; private set; }
 
@@ -28,7 +26,7 @@ namespace SharpCore.Ticking
         
         void ITickInstance<T>.Tick(double delta)
         {
-            foreach (TicksetBaseInstance<T> sim in ticksets)
+            foreach (TicksetBase<T> sim in ticksets)
             {
                 sim.Tick(delta);
             }

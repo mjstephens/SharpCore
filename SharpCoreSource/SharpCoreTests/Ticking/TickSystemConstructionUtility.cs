@@ -1,4 +1,4 @@
-using SharpCore.Ticking.Data;
+using SharpCore.Ticking;
 
 namespace SharpCoreTests.Ticking
 {
@@ -55,11 +55,11 @@ namespace SharpCoreTests.Ticking
 
         #region Ticksets
 
-        private static TicksetInstanceConfigData[] BlankTicksetGroup()
+        private static TicksetConfigData[] BlankTicksetGroup()
         {
-            TicksetInstanceConfigData [] ticksetGroup =
+            TicksetConfigData [] ticksetGroup =
             {
-                new TicksetInstanceConfigData
+                new TicksetConfigData
                 {
                     ticksetName = "tickset"
                 }
@@ -67,9 +67,9 @@ namespace SharpCoreTests.Ticking
             return ticksetGroup;
         }
 
-        public static TicksetInstanceConfigData TicksetInstance(string name)
+        public static TicksetConfigData TicksetInstance(string name)
         {
-            return new TicksetInstanceConfigData
+            return new TicksetConfigData
             {
                 ticksetName = name
             };
@@ -88,7 +88,7 @@ namespace SharpCoreTests.Ticking
                 {
                     ticksets = new []
                     {
-                        new TicksetInstanceConfigData
+                        new TicksetConfigData
                         {
                             ticksetName = "testSimTickset"
                         }
@@ -112,12 +112,12 @@ namespace SharpCoreTests.Ticking
             {
                 TickSimulationConfigData thisTick = new TickSimulationConfigData();
                 thisTick.tickName = "tick_" + i;
-                thisTick.ticksets = new TicksetInstanceConfigData[ticksetsPerTick];
+                thisTick.ticksets = new TicksetConfigData[ticksetsPerTick];
                 thisTick.tickrate = tRate;
                 thisTick.maxDelta = tMax;
                 for (int e = 0; e < thisTick.ticksets.Length; e++)
                 {
-                    thisTick.ticksets[e] = new TicksetInstanceConfigData
+                    thisTick.ticksets[e] = new TicksetConfigData
                     {
                         ticksetName = "tick_" + i + "_tickset_" + e
                     };

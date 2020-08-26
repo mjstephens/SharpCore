@@ -1,10 +1,10 @@
 using SharpCore.Data;
 
-namespace SharpCore.Ticking.Data
+namespace SharpCore.Ticking
 {
     public class CoreTickSystemConfigData : CoreSystemData
     {
-        public TicksetInstanceConfigData[] renderTicksets;
+        public TicksetConfigData[] renderTicksets;
         public TickSimulationConfigData[] simulationTicks;
     }
 }

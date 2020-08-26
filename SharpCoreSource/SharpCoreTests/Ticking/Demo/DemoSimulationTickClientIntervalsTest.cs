@@ -1,4 +1,4 @@
-using SharpCore.Ticking.Client;
+using SharpCore.Ticking;
 
 namespace SharpCoreTests.Ticking.Demo
 {

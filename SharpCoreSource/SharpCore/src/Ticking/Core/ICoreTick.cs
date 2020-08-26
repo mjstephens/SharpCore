@@ -1,15 +1,16 @@
 using System;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
 
-namespace SharpCore.Ticking.Interfaces
+namespace SharpCore.Ticking
 {
+    /// <summary>
+    /// Describes client-facing API for core tick system
+    /// </summary>
     public interface ICoreTick : ICoreSystemInterface
     {
         #region Properties
 
         /// <summary>
-        /// List of variable (render) ticks
+        /// The render tick.
         /// </summary>
         public ITickInstance<ITickRenderClient> renderTick { get; }
         /// <summary>
@@ -32,28 +33,28 @@ namespace SharpCore.Ticking.Interfaces
         /// </summary>
         /// <param name="obj">The client being registered.</param>
         /// <param name="tickset">The tickset to which to register the client.</param>
-        void Register(ITickSimulationClient obj, TicksetInstanceConfigData tickset = null);
+        void Register(ITickSimulationClient obj, TicksetConfigData tickset = null);
         
         /// <summary>
         /// Registers a client to a render tickset.
         /// </summary>
         /// <param name="obj">The client being registered.</param>
         /// <param name="tickset">The tickset to which to register the client.</param>
-        void Register(ITickRenderClient obj, TicksetInstanceConfigData tickset = null);
+        void Register(ITickRenderClient obj, TicksetConfigData tickset = null);
         
         /// <summary>
         /// Unregisters a client from a simulation tickset.
         /// </summary>
         /// <param name="obj">The client being unregistered.</param>
         /// <param name="tickset">The tickset from which to unregister the client.</param>
-        void Unregister(ITickSimulationClient obj, TicksetInstanceConfigData tickset = null);
+        void Unregister(ITickSimulationClient obj, TicksetConfigData tickset = null);
         
         /// <summary>
         /// Unregisters a client from a render tickset.
         /// </summary>
         /// <param name="obj">The client being unregistered.</param>
         /// <param name="tickset">The tickset from which to unregister the client.</param>
-        void Unregister(ITickRenderClient obj, TicksetInstanceConfigData tickset = null);
+        void Unregister(ITickRenderClient obj, TicksetConfigData tickset = null);
 
         /// <summary>
         /// Ticks the core tick system with the given delta time.

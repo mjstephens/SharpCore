@@ -1,6 +1,5 @@
 using SharpCore;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
+using SharpCore.Ticking;
 
 namespace SharpCoreTests.Ticking.Demo
 {
@@ -21,7 +20,7 @@ namespace SharpCoreTests.Ticking.Demo
         
         #region Constructor
 
-        public DemoOrderedRenderTickClient(TicksetInstanceConfigData data, int orderedInstance)
+        public DemoOrderedRenderTickClient(TicksetConfigData data, int orderedInstance)
         {
             targetOrder = orderedInstance;
             Core.Tick.Register(this, data);

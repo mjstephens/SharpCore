@@ -1,13 +1,10 @@
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
-
 namespace SharpCore.Ticking
 {
-    public class TicksetRenderInstance : TicksetBaseInstance<ITickRenderClient>
+    public class TicksetSimulation: TicksetBase<ITickSimulationClient>
     {
         #region Constructor
 
-        public TicksetRenderInstance(TicksetInstanceConfigData data)
+        public TicksetSimulation(TicksetConfigData data)
         {
             ticksetData = data;
         }
@@ -23,7 +20,7 @@ namespace SharpCore.Ticking
         public override void Tick(double delta)
         {
             base.Tick(delta);
-            foreach (ITickRenderClient obj in _current)
+            foreach (ITickSimulationClient obj in _current)
             {
                 obj.Tick(delta);
             }

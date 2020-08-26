@@ -1,9 +1,9 @@
-namespace SharpCore.Ticking.Sources
+namespace SharpCore.Ticking
 {
     /// <summary>
     /// Provides tick system with ticks from client; Update (Unity) or custom ticks with other system.
     /// </summary>
-    public abstract class ICoreTickSource
+    public abstract class CoreTickSource
     {
         /// <summary>
         /// Ticks the core ticking system with the provided update interval.

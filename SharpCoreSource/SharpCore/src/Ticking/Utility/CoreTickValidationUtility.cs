@@ -1,7 +1,6 @@
 using System;
-using SharpCore.Ticking.Data;
 
-namespace SharpCore.Ticking.Utility
+namespace SharpCore.Ticking
 {
     /// <summary>
     /// Helps validate tick system data.

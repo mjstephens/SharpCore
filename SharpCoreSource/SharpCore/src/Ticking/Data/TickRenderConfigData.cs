@@ -1,4 +1,4 @@
-namespace SharpCore.Ticking.Data
+namespace SharpCore.Ticking
 {
     public class TickRenderConfigData : TickBaseConfigData
     {

@@ -1,10 +1,10 @@
 using SharpCore.Data;
 
-namespace SharpCore.Ticking.Data
+namespace SharpCore.Ticking
 {
     public class TickBaseConfigData : ConfigurationData
     {
-        public TicksetInstanceConfigData [] ticksets;
+        public TicksetConfigData [] ticksets;
         public string tickName;
     }
 }

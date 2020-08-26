@@ -1,6 +1,5 @@
 using SharpCore;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
+using SharpCore.Ticking;
 
 namespace SharpCoreTests.Ticking.Demo
 {
@@ -22,7 +21,7 @@ namespace SharpCoreTests.Ticking.Demo
         #region Constructor
 
         public DemoOrderedSimulationTickClient(
-            TicksetInstanceConfigData data, 
+            TicksetConfigData data, 
             int targetOrder)
         {
             this.targetOrder = targetOrder;

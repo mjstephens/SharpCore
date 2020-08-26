@@ -1,8 +1,8 @@
-using SharpCore.Ticking.Sources;
+using SharpCore.Ticking;
 
 namespace SharpCoreTests.Ticking.Demo
 {
-    public class DemoTickClockSource : ICoreTickSource
+    public class DemoTickClockSource : CoreTickSource
     {
         /// <summary>
         /// Tests triggering a core system tick with the provided delta.

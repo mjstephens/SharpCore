@@ -1,16 +1,13 @@
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
-using SharpCore.Ticking.Interfaces;
 
 namespace SharpCore.Ticking
 {
-    public abstract class TicksetBaseInstance<T> : ITicksetInstance where T : ITickClient
+    public abstract class TicksetBase<T> : ITicksetInstance where T : ITickClient
     {
         #region Variables
 
         // Tickset data
-        protected TicksetInstanceConfigData ticksetData;
+        protected TicksetConfigData ticksetData;
 
         /// <summary>
         /// The list of current clients subscribed to this tickset.

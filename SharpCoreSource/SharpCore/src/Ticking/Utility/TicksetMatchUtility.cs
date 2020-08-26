@@ -1,8 +1,4 @@
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
-using SharpCore.Ticking.Interfaces;
-
-namespace SharpCore.Ticking.Utility
+namespace SharpCore.Ticking
 {
     /// <summary>
     /// Aids in finding ticksets based on data.
@@ -11,8 +7,8 @@ namespace SharpCore.Ticking.Utility
     {
         #region Simulation Ticksets
 
-        public static TicksetBaseInstance<ITickSimulationClient> GetSimulationTickset(
-            TicksetInstanceConfigData data,
+        public static TicksetBase<ITickSimulationClient> GetSimulationTickset(
+            TicksetConfigData data,
             TickSimulation[] simulationTicks)
         {
             // Check for null
@@ -22,10 +18,10 @@ namespace SharpCore.Ticking.Utility
             }
             
             // Find tickset
-            TicksetBaseInstance<ITickSimulationClient> match = null;
+            TicksetBase<ITickSimulationClient> match = null;
             foreach (TickSimulation t in simulationTicks)
             {
-                foreach (TicksetBaseInstance<ITickSimulationClient> ts in t.ticksets)
+                foreach (TicksetBase<ITickSimulationClient> ts in t.ticksets)
                 {
                     if (ts.ticksetName == data.ticksetName)
                     {
@@ -39,7 +35,7 @@ namespace SharpCore.Ticking.Utility
             return match;
         }
         
-        private static TicksetBaseInstance<ITickSimulationClient> GetDefaultSimulationTickset(
+        private static TicksetBase<ITickSimulationClient> GetDefaultSimulationTickset(
             TickSimulation[] simulationTicks)
         {
             return simulationTicks[0].ticksets[0];
@@ -50,8 +46,8 @@ namespace SharpCore.Ticking.Utility
 
         #region Render Ticksets
 
-        public static TicksetBaseInstance<ITickRenderClient> GetRenderTickset(
-            TicksetInstanceConfigData data, 
+        public static TicksetBase<ITickRenderClient> GetRenderTickset(
+            TicksetConfigData data, 
             ITickInstance<ITickRenderClient> renderTick)
         {
             // Check for null
@@ -61,8 +57,8 @@ namespace SharpCore.Ticking.Utility
             }
             
             // Find tickset
-            TicksetBaseInstance<ITickRenderClient> match = null;
-            foreach (TicksetBaseInstance<ITickRenderClient> t in renderTick.ticksets)
+            TicksetBase<ITickRenderClient> match = null;
+            foreach (TicksetBase<ITickRenderClient> t in renderTick.ticksets)
             {
                 if (t.ticksetName == data.ticksetName)
                 { 
@@ -74,7 +70,7 @@ namespace SharpCore.Ticking.Utility
             return match;
         }
         
-        private static TicksetBaseInstance<ITickRenderClient> GetDefaultRenderTickset(
+        private static TicksetBase<ITickRenderClient> GetDefaultRenderTickset(
             ITickInstance<ITickRenderClient> renderTick)
         {
             return renderTick.ticksets[0];

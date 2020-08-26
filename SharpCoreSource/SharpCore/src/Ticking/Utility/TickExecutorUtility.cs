@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Interfaces;
 
-namespace SharpCore.Ticking.Utility
+namespace SharpCore.Ticking
 {
     /// <summary>
     /// Executes ticks across existing tick instances + ticksets.

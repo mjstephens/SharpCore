@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
-using SharpCore.Ticking.Interfaces;
-using SharpCore.Ticking.Utility;
 
 namespace SharpCore.Ticking
 {
@@ -49,30 +45,30 @@ namespace SharpCore.Ticking
 
         #region Registration
 
-        void ICoreTick.Register(ITickSimulationClient obj, TicksetInstanceConfigData tickset)
+        void ICoreTick.Register(ITickSimulationClient obj, TicksetConfigData tickset)
         {
-            TicksetBaseInstance<ITickSimulationClient> s = 
+            TicksetBase<ITickSimulationClient> s = 
                 TicksetMatchUtility.GetSimulationTickset(tickset, simulationTicks);
             s.stagedForAddition.Add(obj);
         }
         
-        void ICoreTick.Register(ITickRenderClient obj, TicksetInstanceConfigData tickset)
+        void ICoreTick.Register(ITickRenderClient obj, TicksetConfigData tickset)
         {
-            TicksetBaseInstance<ITickRenderClient> s = 
+            TicksetBase<ITickRenderClient> s = 
                 TicksetMatchUtility.GetRenderTickset(tickset, renderTick);
             s.stagedForAddition.Add(obj);
         }
 
-        void ICoreTick.Unregister(ITickSimulationClient obj, TicksetInstanceConfigData tickset)
+        void ICoreTick.Unregister(ITickSimulationClient obj, TicksetConfigData tickset)
         {
-            TicksetBaseInstance<ITickSimulationClient> s = 
+            TicksetBase<ITickSimulationClient> s = 
                 TicksetMatchUtility.GetSimulationTickset(tickset, simulationTicks);
             s.stagedForRemoval.Add(obj);
         }
 
-        void ICoreTick.Unregister(ITickRenderClient obj, TicksetInstanceConfigData tickset)
+        void ICoreTick.Unregister(ITickRenderClient obj, TicksetConfigData tickset)
         {
-            TicksetBaseInstance<ITickRenderClient> s = 
+            TicksetBase<ITickRenderClient> s = 
                 TicksetMatchUtility.GetRenderTickset(tickset, renderTick);
             s.stagedForRemoval.Add(obj);
         }

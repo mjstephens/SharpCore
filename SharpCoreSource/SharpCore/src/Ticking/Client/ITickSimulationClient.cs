@@ -1,4 +1,4 @@
-namespace SharpCore.Ticking.Client
+namespace SharpCore.Ticking
 {
     public interface ITickSimulationClient : ITickClient
     {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using SharpCore.Ticking.Interfaces;
+using SharpCore.Tasks.Interfaces;
+using SharpCore.Ticking;
 
 namespace SharpCore
 {
@@ -8,6 +9,7 @@ namespace SharpCore
         #region Core Interfaces
 
         public static ICoreTick Tick;
+        public static ICoreTask Task;
         
         #endregion Core Interfaces
         
@@ -25,9 +27,9 @@ namespace SharpCore
         #region Initialization
 
         /// <summary>
-        /// Callback to all systems after all have been constructed/initialized.
+        /// Called from client; Signals to all systems after construction and initialization.
         /// </summary>
-        public static void OnApplicationClientSystemLoad()
+        public static void OnCoreSystemsConstructedFromClient()
         {
             // Load default system data for any un-initialized systems
             
@@ -55,6 +57,9 @@ namespace SharpCore
             {
                 case ICoreTick s:
                     Tick = s;
+                    break;
+                case ICoreTask s:
+                    Task = s;
                     break;
             }
 

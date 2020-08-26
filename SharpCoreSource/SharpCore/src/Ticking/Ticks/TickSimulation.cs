@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
-using SharpCore.Ticking.Data;
 
 namespace SharpCore.Ticking
 {
@@ -38,12 +36,12 @@ namespace SharpCore.Ticking
         /// Creates and sets the ticksets to be used in this tick.
         /// </summary>
         /// <param name="ticksetsData">The data from which to create the ticksets.</param>
-        private void SetTicksets(IEnumerable<TicksetInstanceConfigData> ticksetsData)
+        private void SetTicksets(IEnumerable<TicksetConfigData> ticksetsData)
         {
-            ticksets = new List<TicksetBaseInstance<ITickSimulationClient>>();
-            foreach (TicksetInstanceConfigData tick in ticksetsData)
+            ticksets = new List<TicksetBase<ITickSimulationClient>>();
+            foreach (TicksetConfigData tick in ticksetsData)
             {
-                TicksetSimulationInstance t = new TicksetSimulationInstance(tick);
+                TicksetSimulation t = new TicksetSimulation(tick);
                 ticksets.Add(t);
             }
         }

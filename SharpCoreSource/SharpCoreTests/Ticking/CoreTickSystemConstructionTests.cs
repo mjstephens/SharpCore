@@ -2,7 +2,6 @@ using System;
 using NUnit.Framework;
 using SharpCore;
 using SharpCore.Ticking;
-using SharpCore.Ticking.Data;
 
 namespace SharpCoreTests.Ticking
 {
@@ -65,10 +64,10 @@ namespace SharpCoreTests.Ticking
         {
             // Construct data with additoinal render ticksets
             CoreTickSystemConfigData coreTickConfigData = TickSystemConstructionUtility.BlankCoreTickSystemConfigData();
-            coreTickConfigData.renderTicksets = new TicksetInstanceConfigData[additionalTicksets];
+            coreTickConfigData.renderTicksets = new TicksetConfigData[additionalTicksets];
             for (int i = 0; i < additionalTicksets; i++)
             {
-                coreTickConfigData.renderTicksets[i] = new TicksetInstanceConfigData
+                coreTickConfigData.renderTicksets[i] = new TicksetConfigData
                 {
                     ticksetName = "testTick_" + i
                 };

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using SharpCore.Ticking.Client;
 
-namespace SharpCore.Ticking.Interfaces
+namespace SharpCore.Ticking
 {
     /// <summary>
     /// Defines contract for an instance of a TickBase (TickRender or TickSimulation) 
@@ -14,7 +13,7 @@ namespace SharpCore.Ticking.Interfaces
         /// <summary>
         /// The ticksets that belong to this tick
         /// </summary>
-        public List<TicksetBaseInstance<T>> ticksets { get; }
+        public List<TicksetBase<T>> ticksets { get; }
 
         /// <summary>
         /// How many ticks have been executed thus far.
