@@ -5,36 +5,44 @@ namespace SharpCore.Utility.Pooling
     /// </summary>
     public interface IClientPoolable
     {
+        #region Properties
+
         /// <summary>
-        /// Creates a new instance and adds it to the pool.
+        /// True if this instance is NOT being used (according to its pool)
+        /// </summary>
+        public bool availableInPool { get; set; }
+
+        #endregion Properties
+
+
+        #region Methods
+
+        /// <summary>
+        /// When the instance is created by the given pool.
         /// </summary>
         /// <param name="pool">The pool from which the instance was created</param>
         void OnInstanceCreated(PoolBase pool);
-        
+
         /// <summary>
-        /// Returns true if the poolable is available for use.
-        /// </summary>
-        /// <returns></returns>
-        bool GetIsAvailable();
-        
-        /// <summary>
-        /// Claims the poolable and activates for use.
+        /// Claims the instance and activates for use.
         /// </summary>
         void Claim();
         
         /// <summary>
-        /// Releases ownership and returns poolable to the pool for later use.
+        /// Releases ownership and returns instance to the pool for later use.
         /// </summary>
         void Relinquish();
 
         /// <summary>
-        /// Recycles an instance (immediately reusing in diff context).
+        /// Recycles an instance (immediately reusing in different context).
         /// </summary>
         void Recycle();
 
         /// <summary>
-        /// Removes the poolable from the pool entirely.
+        /// Removes the instance from the pool entirely.
         /// </summary>
         void DeleteFromPool();
+
+        #endregion Methods
     }
 }

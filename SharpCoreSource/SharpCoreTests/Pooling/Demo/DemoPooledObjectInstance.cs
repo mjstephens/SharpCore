@@ -1,4 +1,3 @@
-using System;
 using SharpCore.Utility.Pooling;
 
 namespace SharpCoreTests.Pooling.Demo
@@ -8,38 +7,57 @@ namespace SharpCoreTests.Pooling.Demo
     /// </summary>
     public class DemoPooledObjectInstance : IClientPoolable
     {
+        #region Data
+
+        public bool availableInPool { get; set; }
+        
+        private IPool _pool;
+
+        #endregion Data
+        
+        
         #region Pooling
 
         void IClientPoolable.OnInstanceCreated(PoolBase pool)
         {
-            throw new NotImplementedException();
-        }
-
-        bool IClientPoolable.GetIsAvailable()
-        {
-            throw new NotImplementedException();
+            _pool = pool;
         }
 
         void IClientPoolable.Claim()
         {
-            throw new NotImplementedException();
+            
         }
 
         void IClientPoolable.Relinquish()
         {
-            throw new NotImplementedException();
+            
         }
 
         void IClientPoolable.Recycle()
         {
-            throw new NotImplementedException();
+            
         }
 
         void IClientPoolable.DeleteFromPool()
         {
-            throw new NotImplementedException();
+            
         }
 
         #endregion Pooling
+
+
+        #region Tests
+
+        public void RelenquishFromInstance()
+        {
+            _pool.RelinquishInstance(this);
+        }
+        
+        public void DeleteObjectInstance()
+        {
+            _pool.DeleteFromInstance(this);
+        }
+
+        #endregion Tests
     }
 }

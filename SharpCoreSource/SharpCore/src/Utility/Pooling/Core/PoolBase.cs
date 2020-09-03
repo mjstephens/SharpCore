@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace SharpCore.Utility.Pooling
 {
@@ -7,9 +6,22 @@ namespace SharpCore.Utility.Pooling
     {
         #region Properties
 
-        public Vector2 capacity { get; private set; }
+        public int capacityMin
+        {
+            get => _capacityMin;
+            set => SetCapacityMin(value);
+        }
+
+        public int capacityMax
+        {
+            get => _capacityMax;
+            set => SetCapacityMax(value);
+        }
+
         public int instanceCount => _pool.Count;
+        
         public int activeCount => GetPoolActiveCount();
+        
         public string poolLabel { get; set; }
 
         #endregion Properties
@@ -22,30 +34,26 @@ namespace SharpCore.Utility.Pooling
         /// </summary>
         private readonly List<IClientPoolable> _pool;
 
+        // Backing fields for properties
+        private int _capacityMin;
+        private int _capacityMax = -1;
+
         #endregion Fields
 
 
         #region Constructor
-
-        /// <summary>
-        /// Creates a new instance of the pool
-        /// </summary>
+        
         protected PoolBase()
         {
             // Set default capacity (no prewarmed, infinite max)
             _pool = new List<IClientPoolable>();
-            SetCapacity(new Vector2(0, -1));
         }
 
         #endregion Constructor
 
 
         #region Get Next
-
-        /// <summary>
-        /// Claims and returns the next available instance from the pool.
-        /// </summary>
-        /// <returns></returns>
+        
         public IClientPoolable GetNext()
         {
             // Get oldest pool object
@@ -56,7 +64,7 @@ namespace SharpCore.Utility.Pooling
                 if (result == null)
                 {
                     // We are either full or at max capacity. Create or recycle
-                    if (capacity.Y > 0 && _pool.Count >= capacity.Y)
+                    if (_capacityMax > 0 && _pool.Count >= _capacityMax)
                     {
                         result = Recycle();
                     }
@@ -84,7 +92,7 @@ namespace SharpCore.Utility.Pooling
         /// <returns></returns>
         private IClientPoolable GetNextAvailable()
         {
-            return _pool[0].GetIsAvailable() ? _pool[0] : null;
+            return _pool[0].availableInPool ? _pool[0] : null;
         }
 
         /// <summary>
@@ -108,6 +116,7 @@ namespace SharpCore.Utility.Pooling
             
             return result;
         }
+        
         protected abstract IClientPoolable CreateNewPoolable();
 
         /// <summary>
@@ -129,36 +138,25 @@ namespace SharpCore.Utility.Pooling
 
         #region Ownership
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="instance"></param>
         public void ClaimInstance(IClientPoolable instance)
         {
             _pool.Remove(instance);
             _pool.Add(instance);
+            instance.availableInPool = false;
             instance.Claim();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="instance"></param>
         public void RelinquishInstance(IClientPoolable instance)
         {
             _pool.Remove(instance);
             _pool.Insert(0, instance);
+            instance.availableInPool = true;
             instance.Relinquish();
         }
         
-        /// <summary>
-        /// Removes the instance from the pool entirely, called from the instance itself.
-        /// Currently used only from pooled GameObjects (GameObjectPooledComponent).
-        /// </summary>
-        /// <param name="p"></param>
-        public void DeleteFromInstance(IClientPoolable p)
+        void IPool.DeleteFromInstance(IClientPoolable instance)
         {
-            _pool.Remove(p);
+            _pool.Remove(instance);
         }
 
         #endregion Ownership
@@ -167,26 +165,39 @@ namespace SharpCore.Utility.Pooling
         #region Capactiy
 
         /// <summary>
-        /// Sets the maximum/minimum capacity of the pool.
+        /// 
         /// </summary>
-        /// <param name="c"></param>
-        public void SetCapacity(Vector2 c)
+        /// <param name="minValue"></param>
+        private void SetCapacityMin(int minValue)
         {
-            // Set min and max values
-            SetCapacityMin((int)c.X);
-            SetCapacityMax((int)c.Y);
+            _capacityMin = minValue;
+            if (!PoolValidationUtility.ValidatePoolCapacity(_capacityMin, _capacityMax))
+                return;
+            
+            // We need to create objects if we don't have enough
+            EnforceMinimumCapacity();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="m"></param>
-        public void SetCapacityMin(int m)
+        /// <param name="maxValue"></param>
+        private void SetCapacityMax(int maxValue)
         {
-            capacity = new Vector2(m, capacity.Y);
+            _capacityMax = maxValue;
+            if (!PoolValidationUtility.ValidatePoolCapacity(_capacityMin, _capacityMax))
+                return;
             
-            // We need to create objects if we don't have enough
-            int createCount = m - _pool.Count;
+            // We need to remove items if we have too many
+            EnforceMaximumCapacity();
+        }
+
+        /// <summary>
+        /// Ensures that there are a minimum number of instaces in the pool
+        /// </summary>
+        private void EnforceMinimumCapacity()
+        {
+            int createCount = _capacityMin - _pool.Count;
             for (int i = 0; i < createCount; i++)
             {
                 CreateNew(false);
@@ -194,15 +205,11 @@ namespace SharpCore.Utility.Pooling
         }
 
         /// <summary>
-        /// 
+        /// Ensures that instances are destroyed if the instance count exceeds the pool max capacity
         /// </summary>
-        /// <param name="m"></param>
-        public void SetCapacityMax(int m)
+        private void EnforceMaximumCapacity()
         {
-            capacity = new Vector2(capacity.X, m);
-            
-            // We need to remove items if we have too many
-            int removalCount = _pool.Count - m;
+            int removalCount = _pool.Count - _capacityMax;
             if (removalCount > 0)
             {
                 // Remove oldest objects first
@@ -224,6 +231,32 @@ namespace SharpCore.Utility.Pooling
 
         #region Utility
 
+        void IPool.Clean()
+        {
+            // Determine number of instances to clean
+            int cleanCount = 0;
+            for (int i = 0; i < _pool.Count; i++)
+            {
+                if (_pool[i].availableInPool)
+                {
+                    cleanCount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            // Clean instances
+            int cleaned = 0;
+            while (cleaned < cleanCount)
+            {
+                _pool[0].DeleteFromPool();
+                _pool.RemoveAt(0);
+                cleaned++;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -231,13 +264,46 @@ namespace SharpCore.Utility.Pooling
         private int GetPoolActiveCount()
         {
             int a = 0;
-            foreach (var p in _pool)
+            for (int i = _pool.Count - 1; i >= 0; i--)
             {
-                if (!p.GetIsAvailable())
+                if (!_pool[i].availableInPool)
+                {
                     a++;
+                }                
+                else
+                {
+                    break;
+                }
             }
 
             return a;
+        }
+
+        public bool InternalValidatePoolInstanceLayout(int targetAvailable)
+        {
+            bool pass = true;
+            bool hasFoundActive = false;
+            int availableCount = 0;
+            for (int i = 0; i < _pool.Count; i++)
+            {
+                if (!_pool[i].availableInPool)
+                {
+                    hasFoundActive = true;
+                }
+                else
+                {
+                    if (hasFoundActive)
+                    {
+                        pass = false;
+                        break;
+                    }
+                    availableCount++;
+                }
+            }
+
+            if (pass)
+                pass = availableCount == targetAvailable;
+            return pass;
         }
 
         #endregion Utility
