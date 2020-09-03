@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace SharpCore.Utility.Pooling
@@ -188,7 +189,6 @@ namespace SharpCore.Utility.Pooling
             if (!PoolValidationUtility.ValidatePoolCapacity(_capacityMin, _capacityMax))
                 return;
             
-            // We need to remove items if we have too many
             EnforceMaximumCapacity();
         }
 
@@ -209,6 +209,9 @@ namespace SharpCore.Utility.Pooling
         /// </summary>
         private void EnforceMaximumCapacity()
         {
+            if (_capacityMax < 0)
+                return;
+            
             int removalCount = _pool.Count - _capacityMax;
             if (removalCount > 0)
             {

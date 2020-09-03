@@ -43,12 +43,14 @@ namespace SharpCoreTests.Pooling
         }
 
         [Test]
-        [TestCase(0)]
-        [TestCase(10)]
-        public static void PoolDoesCreateMinimumCapacity(int poolMinCapacity)
+        [TestCase(0, -1)]
+        [TestCase(10, 20)]
+        [TestCase(10, -1)]
+        public static void PoolDoesCreateMinimumCapacity(int poolMinCapacity, int poolMaxCapacity)
         {
             IPool pool = new DemoPool();
             pool.capacityMin = poolMinCapacity;
+            pool.capacityMax = poolMaxCapacity;
             
             Assert.GreaterOrEqual(pool.instanceCount, poolMinCapacity,
                 "Pool is not creating enough instances to meet required minimum!");
