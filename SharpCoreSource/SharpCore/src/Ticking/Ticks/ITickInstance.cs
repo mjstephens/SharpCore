@@ -23,7 +23,7 @@ namespace SharpCore.Ticking
         /// <summary>
         /// FPS of this tick
         /// </summary>
-        public double ticksPerSecond { get; }
+        public float ticksPerSecond { get; }
 
         #endregion Properties
 
@@ -34,7 +34,7 @@ namespace SharpCore.Ticking
         /// Executes a tick of the tick instance (ticks every tickset).
         /// </summary>
         /// <param name="delta">Time elapsed (seconds) since previous tick.</param>
-        void Tick(double delta);
+        void Tick(float delta);
         
         #endregion Methods
     }

@@ -56,7 +56,7 @@ namespace SharpCore.Ticking
         /// <summary>
         /// Iterates through and ticks every ITickable assigned to this tickset.
         /// </summary>
-        public virtual void Tick(double delta)
+        public virtual void Tick(float delta)
         {
             // Add/remove staged ticks from group
             AddStagedTickables();

@@ -60,7 +60,7 @@ namespace SharpCore.Ticking
         /// Ticks the core tick system with the given delta time.
         /// </summary>
         /// <param name="delta">Time elapsed since the previous tick.</param>
-        void OnUpdate(double delta);
+        void OnUpdate(float delta);
 
         #endregion Methods
     }

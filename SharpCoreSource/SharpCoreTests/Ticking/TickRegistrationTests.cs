@@ -31,7 +31,7 @@ namespace SharpCoreTests.Ticking
             }
             
             // Tick once to ready client additions
-            Core.Tick.OnUpdate(0.01);
+            Core.Tick.OnUpdate(0.01f);
 
             Assert.AreEqual(GetTotalNumberOfRenderTickSubscribers(), clientCount,
                 "Subscriber count for render ticksets do not match number of registrants.");
@@ -81,7 +81,7 @@ namespace SharpCoreTests.Ticking
             }
             
             // Tick once to ready client additions
-            Core.Tick.OnUpdate(0.01);
+            Core.Tick.OnUpdate(0.01f);
             
             // Unrgister clients
             int remCount = r.Next(3, 8);
@@ -91,7 +91,7 @@ namespace SharpCoreTests.Ticking
             }
             
             // Tick once to ready client subtractions
-            Core.Tick.OnUpdate(0.01);
+            Core.Tick.OnUpdate(0.01f);
             
             Assert.AreEqual(GetTotalNumberOfRenderTickSubscribers(), subCount - remCount,
                 "Subscriber count for render ticksets do not match number of registrants.");

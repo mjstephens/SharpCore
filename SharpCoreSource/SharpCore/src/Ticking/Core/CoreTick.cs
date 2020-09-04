@@ -39,7 +39,7 @@ namespace SharpCore.Ticking
             }
             simulationTicks = fixedList.ToArray();
         }
-
+ 
         #endregion Construction
 
 
@@ -78,7 +78,7 @@ namespace SharpCore.Ticking
 
         #region Source
 
-        void ICoreTick.OnUpdate(double delta)
+        void ICoreTick.OnUpdate(float delta)
         {
             // Validate delta data
             if (!CoreTickValidationUtility.ValidateDeltaInterval(delta))

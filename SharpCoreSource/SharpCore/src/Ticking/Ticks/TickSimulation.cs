@@ -14,7 +14,7 @@ namespace SharpCore.Ticking
         /// <summary>
         /// Accumulates delta time and processes correct number of sim ticks in AppTick.
         /// </summary>
-        public double accumulator { get; set; }
+        public float accumulator { get; set; }
 
         #endregion Variables
 

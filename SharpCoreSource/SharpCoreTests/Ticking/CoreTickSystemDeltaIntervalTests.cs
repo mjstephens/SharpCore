@@ -13,7 +13,7 @@ namespace SharpCoreTests.Ticking
         [Test]
         [TestCase(0)]
         [TestCase(-1)]
-        public void InvalidDeltaTickIntervalsDoFailValidation(double interval)
+        public void InvalidDeltaTickIntervalsDoFailValidation(float interval)
         {
             try
             {
@@ -28,9 +28,9 @@ namespace SharpCoreTests.Ticking
         }
         
         [Test]
-        [TestCase(0.01)]
+        [TestCase(0.01f)]
         [TestCase(5)]
-        public void ElapsedTimeIsAccurateGivenValidConstantDeltaIntervals(double interval)
+        public void ElapsedTimeIsAccurateGivenValidConstantDeltaIntervals(float interval)
         {
             var _ = new CoreTick(TickSystemConstructionUtility.BlankCoreTickSystemConfigData());
             const int tickCount = 50;
@@ -40,7 +40,8 @@ namespace SharpCoreTests.Ticking
             }
             
             TimeSpan elapsed = TimeSpan.FromSeconds(tickCount * interval);
-            Assert.AreEqual(elapsed, Core.Tick.elapsedSinceSimStartup,
+            float round = Math.Abs((float)Core.Tick.elapsedSinceSimStartup.TotalSeconds - (float)elapsed.TotalSeconds);
+            Assert.LessOrEqual(round, 0.0001f,
                 "Elapsed time does not add up based on constant delta intervals.");
         }
 

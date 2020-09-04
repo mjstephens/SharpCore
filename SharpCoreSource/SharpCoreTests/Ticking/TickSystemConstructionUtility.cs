@@ -4,7 +4,7 @@ namespace SharpCoreTests.Ticking
 {
     public static class TickSystemConstructionUtility
     {
-        public static double blankSimTickRate = 0.034;
+        public static float blankSimTickRate = 0.034f;
         
         #region System Config Data
 
@@ -104,8 +104,8 @@ namespace SharpCoreTests.Ticking
         public static TickSimulationConfigData[] SimulationTickDataGroup(
             int tickCount, 
             int ticksetsPerTick,
-            double tRate = 0.0334,
-            double tMax = 0.5)
+            float tRate = 0.0334f,
+            float tMax = 0.5f)
         {
             TickSimulationConfigData[] data = new TickSimulationConfigData[tickCount];
             for (int i = 0; i < tickCount; i++)

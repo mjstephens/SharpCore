@@ -17,7 +17,7 @@ namespace SharpCore.Ticking
         /// <summary>
         /// Iterates through and ticks every ITickable assigned to this tickset.
         /// </summary>
-        public override void Tick(double delta)
+        public override void Tick(float delta)
         {
             base.Tick(delta);
             foreach (ITickSimulationClient obj in _current)

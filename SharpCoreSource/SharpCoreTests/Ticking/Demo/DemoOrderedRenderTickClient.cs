@@ -31,7 +31,7 @@ namespace SharpCoreTests.Ticking.Demo
 
         #region Tick
 
-        void ITickRenderClient.Tick(double delta)
+        void ITickRenderClient.Tick(float delta)
         {
             thisOrderedEntryResult = tickOrderCounter;
             tickOrderCounter++;

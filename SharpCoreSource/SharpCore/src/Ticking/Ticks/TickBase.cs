@@ -8,7 +8,7 @@ namespace SharpCore.Ticking
         
         public List<TicksetBase<T>> ticksets { get; protected set; }
         public uint tickCount { get; private set; }
-        public double ticksPerSecond { get; private set; }
+        public float ticksPerSecond { get; private set; }
 
         #endregion Properties
 
@@ -17,14 +17,14 @@ namespace SharpCore.Ticking
 
         private const float CONST_tpsUpdateRate = 4.0f;
         private int _tpsFrameCount;
-        private double _tpsAccumDelta;
+        private float _tpsAccumDelta;
 
         #endregion Variables
 
 
         #region Tick
         
-        void ITickInstance<T>.Tick(double delta)
+        void ITickInstance<T>.Tick(float delta)
         {
             foreach (TicksetBase<T> sim in ticksets)
             {
@@ -39,7 +39,7 @@ namespace SharpCore.Ticking
         /// Calculates the approximate realtime frames per second (tps) for this tick.
         /// </summary>
         /// <param name="delta">Time elapsed (seconds) since previous tick.</param>
-        private void CalculateTPS(double delta)
+        private void CalculateTPS(float delta)
         {
             _tpsFrameCount++;
             _tpsAccumDelta += delta;

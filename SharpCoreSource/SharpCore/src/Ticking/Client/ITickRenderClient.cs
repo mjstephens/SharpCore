@@ -6,6 +6,6 @@ namespace SharpCore.Ticking
         /// Ticks the render client.
         /// </summary>
         /// <param name="delta">Time elapsed since the previous tick for this render tickset.</param>
-        void Tick(double delta);
+        void Tick(float delta);
     }
 }

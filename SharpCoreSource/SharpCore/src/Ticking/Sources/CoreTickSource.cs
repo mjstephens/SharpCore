@@ -9,7 +9,7 @@ namespace SharpCore.Ticking
         /// Ticks the core ticking system with the provided update interval.
         /// </summary>
         /// <param name="delta">The time elapsed since the previous tick (in seconds).</param>
-        protected void Tick(double delta)
+        protected static void Tick(float delta)
         {
             Core.Tick.OnUpdate(delta);
         }

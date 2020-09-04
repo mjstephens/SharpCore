@@ -38,7 +38,7 @@ namespace SharpCoreTests.Ticking
             }
             
             // Tick
-            Core.Tick.OnUpdate(0.0334);
+            Core.Tick.OnUpdate(0.0334f);
             
             // Client tick indices should match their tick keys
             foreach (var c in clients)
@@ -56,8 +56,8 @@ namespace SharpCoreTests.Ticking
         public void SimulationTicksetsAreExecutedInOrderCreated(int ticks, int ticksetsPerTick)
         {
             // Tick data
-            const double tRate = 0.035;
-            const double tMax = 0.05;
+            const float tRate = 0.035f;
+            const float tMax = 0.05f;
             
             // Construct data with additional simulation ticks/ticksets
             CoreTickSystemConfigData coreTickConfigData = TickSystemConstructionUtility.BlankCoreTickSystemConfigData();
@@ -85,7 +85,7 @@ namespace SharpCoreTests.Ticking
             }
             
             // Tick; make sure the delta is long enough to tick simulation
-            double diff = tMax - tRate;
+            float diff = tMax - tRate;
             Core.Tick.OnUpdate(tMax - (diff / 2));
             
             // Client tick indices should match their tick keys
@@ -102,10 +102,10 @@ namespace SharpCoreTests.Ticking
         #region Simulation Ticks
 
         [Test]
-        [TestCase(0.0334)]
-        [TestCase(0.05)]
+        [TestCase(0.0334f)]
+        [TestCase(0.05f)]
         [TestCase(1)]
-        public void SimulationTicksDoFireAtCorrectIntervalsRelativeToRenderTick(double mockTickrate)
+        public void SimulationTicksDoFireAtCorrectIntervalsRelativeToRenderTick(float mockTickrate)
         {
             // Create new tick core system, override with custom simulation tick
             CoreTickSystemConfigData coreTickConfigData = TickSystemConstructionUtility.BlankCoreTickSystemConfigData();
@@ -114,7 +114,7 @@ namespace SharpCoreTests.Ticking
                     1, 
                     1, 
                     mockTickrate,
-                    Double.MaxValue);
+                    float.MaxValue);
             var _ = new CoreTick(coreTickConfigData);
 
             // Create simulation tick instance
@@ -122,17 +122,17 @@ namespace SharpCoreTests.Ticking
             Core.Tick.Register(simTick);
 
             Random r = new Random();
-            double elapsedSinceLastTick = 0;
+            float elapsedSinceLastTick = 0;
             for (int i = 0; i < 100; i++)
             {
                 // Tick
-                double mockDelta = r.NextDouble();
+                float mockDelta = (float)r.NextDouble();
                 Core.Tick.OnUpdate(mockDelta);
                 elapsedSinceLastTick += mockDelta;
                 
                 // Collect target ticks
                 int targetTicks = 0;
-                double mockSimAccumulator = elapsedSinceLastTick;
+                float mockSimAccumulator = elapsedSinceLastTick;
                 while (mockSimAccumulator >= mockTickrate)
                 {
                     mockSimAccumulator -= mockTickrate;
